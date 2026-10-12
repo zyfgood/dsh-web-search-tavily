@@ -1,0 +1,63 @@
+{
+  "name": "dsh-web-search-tavily",
+  "version": "0.2.0",
+  "description": "DeepSeek Harness 插件：把 web_search 的搜索后端从 DeepSeek 云（每次搜索 = 一次完整模型调用）换成 Tavily API（免费 1000 次/月），支持多 key 轮换",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/smoke.mjs",
+    "prepack": "tsc"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "cordis",
+    "tavily",
+    "web-search",
+    "plugin"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-launch-environment": ">=0.1.0-rc.5",
+    "@deepseek-ai/dsh-web": ">=0.1.0-rc.5",
+    "@deepseek-ai/schemastery": "^3.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zyfgood/dsh-web-search-tavily.git"
+  },
+  "homepage": "https://github.com/zyfgood/dsh-web-search-tavily#readme",
+  "bugs": {
+    "url": "https://github.com/zyfgood/dsh-web-search-tavily/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

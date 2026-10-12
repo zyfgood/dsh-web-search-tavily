@@ -1,0 +1,25 @@
+# dsh-web-search-tavily bundle patch
+#
+# 通过官方 CLI 安装时——
+#
+#   dsh plugin --profile <name> add "github:zyfgood/dsh-web-search-tavily#main&path:/"
+#
+# ——CLI 会把本包加入 profile 的 bundle 栈；profile 启动时合并此 patch：
+#   1) 插入插件行（注册 tavily search provider）
+#   2) 覆盖 web 行把 searchProvider 切到 tavily（config 是整键替换，
+#      fetchProvider: http 必须带上，否则 web_fetch 丢失）
+# profile 自己的 cordis.patch.yml 在 bundle patch 之后合并，按 id 覆盖即可定制。
+#
+# 启动前请设置环境变量（密钥不落盘）：
+#   export TAVILY_API_KEY=tvly-xxx
+#   （Windows：写入 %USERPROFILE%/.dsh/.env，loadLayeredEnv 启动注入）
+- insert:
+    - id: web-search-tavily
+      name: dsh-web-search-tavily
+      config:
+        apiKey: 'env:TAVILY_API_KEY'
+- id: web
+  name: '@deepseek-ai/dsh-web'
+  config:
+    searchProvider: tavily
+    fetchProvider: http
