@@ -1,4 +1,4 @@
-# dsh-web-search-tavily bundle patch
+# @zyfgood/dsh-web-search-tavily bundle patch
 #
 # 通过官方 CLI 安装时——
 #
@@ -15,7 +15,7 @@
 #   （Windows：写入 %USERPROFILE%/.dsh/.env，loadLayeredEnv 启动注入）
 - insert:
     - id: web-search-tavily
-      name: dsh-web-search-tavily
+      name: '@zyfgood/dsh-web-search-tavily'
       config:
         apiKey: 'env:TAVILY_API_KEY'
 - id: web

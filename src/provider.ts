@@ -27,7 +27,7 @@ export const TAVILY_DEFAULT_BASE_URL = 'https://api.tavily.com'
 export const TAVILY_DEFAULT_SEARCH_DEPTH = 'basic'
 
 /** Attribution header sent on every request. Bump with the package version. */
-const USER_AGENT = 'dsh-web-search-tavily/0.2.0'
+const USER_AGENT = '@zyfgood/dsh-web-search-tavily/0.2.0'
 
 /** Resolved provider options (the plugin's `apply` supplies env-var and constant defaults). */
 export interface TavilySearchProviderOptions {

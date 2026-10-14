@@ -1,2 +1,7 @@
 node_modules/
 *.tsbuildinfo
+
+.devdeps/
+*.tgz
+# local npm auth (never commit)
+.npmrc

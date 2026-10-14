@@ -1,4 +1,4 @@
-# dsh-web-search-tavily 配置示例（手工挂载 / 覆盖时复制到 profile 的 cordis.patch.yml）
+# @zyfgood/dsh-web-search-tavily 配置示例（手工挂载 / 覆盖时复制到 profile 的 cordis.patch.yml）
 #
 # 说明：
 # - 通过 `dsh plugin add` 安装时无需手工编辑（包内 cordis.patch.yml 自动挂载，
@@ -9,7 +9,7 @@
 #   否则 web_fetch 丢失。
 - insert:
     - id: web-search-tavily
-      name: dsh-web-search-tavily
+      name: '@zyfgood/dsh-web-search-tavily'
       config:
         apiKey: 'env:TAVILY_API_KEY'
         searchDepth: basic        # basic | advanced（重排序，2 credits/次）

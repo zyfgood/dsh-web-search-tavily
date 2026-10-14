@@ -1,7 +1,10 @@
-# dsh-web-search-tavily
+# @zyfgood/dsh-web-search-tavily
 
 DeepSeek Harness（DSH）插件：**把 `web_search` 的搜索后端从 DeepSeek 云换成
 [Tavily](https://tavily.com) API**。
+
+> npm 包名：`@zyfgood/dsh-web-search-tavily`（配置里插件行的 `name:` 也必须写这个名字）。
+> 注意 npm 上另有一个同名非 scope 包 `dsh-web-search-tavily`（他人维护），二者无关。
 
 - **省配额**：DSH 默认的 `deepseek-official` 搜索后端每次搜索 = 一次完整模型调用
   （烧 DeepSeek API 配额）；换 Tavily 后走 Tavily 独立配额（免费 1000 次/月）。
@@ -36,6 +39,8 @@ cloud model call per query (Tavily free tier: 1000 credits/month).
 ```bash
 # Git channel (repo root is the plugin)
 dsh plugin --profile <name> add "github:zyfgood/dsh-web-search-tavily#main&path:/"
+# npm channel
+dsh plugin --profile <name> add @zyfgood/dsh-web-search-tavily
 ```
 
 Set `TAVILY_API_KEY` in the launch environment (e.g. `~/.dsh/.env`), restart
@@ -71,8 +76,12 @@ web_search 工具 (dsh-tool-web)
 export TAVILY_API_KEY=tvly-xxx      # Windows: 写入 %USERPROFILE%/.dsh/.env
 
 dsh plugin --profile <name> add "github:zyfgood/dsh-web-search-tavily#main&path:/"
-# 或 npm 渠道（发布后可用）：dsh plugin --profile <name> add dsh-web-search-tavily
+# 或 npm 渠道（已发布到 npmjs.org）：
+dsh plugin --profile <name> add @zyfgood/dsh-web-search-tavily
 ```
+
+> DeepSeek Harness Desktop 用户的 profile 名为 `desktop`，即
+> `dsh plugin --profile desktop add @zyfgood/dsh-web-search-tavily`。
 
 包内自带 `cordis.patch.yml`（`dsh.bundle.patch`），CLI 安装时自动挂载：插入插件行
 并把 web 行切到 `searchProvider: tavily`，无需手工编辑配置文件。装完重启
@@ -82,15 +91,15 @@ dsh plugin --profile <name> add "github:zyfgood/dsh-web-search-tavily#main&path:
 
 1. profile `package.json`：
    ```json
-   "dependencies": { "dsh-web-search-tavily": "file:/path/to/dsh-web-search-tavily" },
-   "dsh": { "profile": { "bundles": [ "...", "dsh-web-search-tavily" ] } }
+   "dependencies": { "@zyfgood/dsh-web-search-tavily": "file:/path/to/dsh-web-search-tavily" },
+   "dsh": { "profile": { "bundles": [ "...", "@zyfgood/dsh-web-search-tavily" ] } }
    ```
 2. `%USERPROFILE%/.dsh/.env` 加 `TAVILY_API_KEY=tvly-xxx`（loadLayeredEnv 启动注入）
 3. profile `cordis.patch.yml`（完整示例见 `cordis.patch.example.yml`）：
    ```yaml
    - insert:
        - id: web-search-tavily
-         name: dsh-web-search-tavily
+         name: '@zyfgood/dsh-web-search-tavily'
          config:
            apiKey: 'env:TAVILY_API_KEY'
    - id: web
@@ -131,12 +140,17 @@ dsh plugin --profile <name> add "github:zyfgood/dsh-web-search-tavily#main&path:
 ## 开发与构建
 
 ```bash
-npm install --legacy-peer-deps   # 安装依赖（@deepseek-ai/* 由 DSH 运行期提供，这里仅用于类型检查）
+npm install                      # 安装依赖（@deepseek-ai/* 已钉在 0.2.0-rc.2 作类型检查用）
 npm run build                    # tsc → lib/
 npm test                         # 冒烟测试（mock，不打网络）
 TAVILY_API_KEY=xxx npm test -- --live   # 真实 API 验证（可选）
 ```
 
+> **DSH 版本兼容**：本包在 **DSH 0.2.0-rc.2**（DeepSeek Harness Desktop 0.2.0-rc.2）上
+> 验证通过，`engines.dsh` 与 `@deepseek-ai/dsh-*` peer 范围均声明为
+> `>=0.2.0-rc.2 <0.3.0-0`。DSH 安装期用它做兼容性预检（不满足直接拒绝安装），
+> 换到其它 DSH 版本时按实测结果调整该范围。
+>
 > 仓库中的 `lib/` 为已构建产物（开箱即用）；修改 `src/` 后运行 `npm run build`
 > 重新生成。编译期类型依赖（`@deepseek-ai/dsh-web` 等 peer 包）通过仓库 checkout
 > 的 node_modules 解析（dev junction）；运行时由 DSH loader 的

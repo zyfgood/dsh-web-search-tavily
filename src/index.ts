@@ -8,7 +8,7 @@
  * ```yaml
  * - insert:
  *     - id: web-search-tavily
- *       name: dsh-web-search-tavily
+ *       name: '@zyfgood/dsh-web-search-tavily'
  *       config:
  *         apiKey: 'env:TAVILY_API_KEY'
  * - id: web
@@ -18,7 +18,7 @@
  *     fetchProvider: http
  * ```
  *
- * @module dsh-web-search-tavily
+ * @module @zyfgood/dsh-web-search-tavily
  */
 
 import type { Context } from '@deepseek-ai/cordis'
